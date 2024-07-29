@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using PatientManager.Core.Application.Helpers;
+@using PatientManager.Core.Application.ViewModels.User;
+@using PatientManager.Core.Application.ViewModels.LaboratoryTest;
+
+@inject IHttpContextAccessor httpContext;
+@model SaveLaboratoryTestViewModel;
+@{
+    UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+    bool editMode = Model.Id != 0 ? true : false;
+    ViewData["Title"] = "Crear Test";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                <h4>@(editMode ? $"Editando prueba: {Model.Name}" : "Creando una nueva prueba")</h4>
+            </div>
+            <div class="card-body">
+
+                <form method="post" asp-controller="LaboratoryTest" asp-action="@(editMode? "Edit" : "Create")">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Nombre: </label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="ConsultingRoomId" value="@user.ConsultingRoomId" />
+                
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-controller="LaboratoryTest" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

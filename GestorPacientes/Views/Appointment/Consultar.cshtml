@@ -1,0 +1,34 @@
+﻿@using PatientManager.Core.Application.ViewModels.Appointment;
+
+@model SaveConsultAppointmentViewModel;
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>Creando una nueva cita</h4>
+                </div>
+                <div class="card-body">
+                <form method="post" asp-controller="Appointment" asp-action="Consultar">
+                    <div class="mb-3">
+                        <label class="form-label">Resultados de laboratorios:</label>
+                        <div>
+                            @foreach (var test in Model.LaboratoryTests)
+                            {
+                                <div class="form-check">
+                                    <input multiple type="checkbox" class="form-check-input" name="LaboratoryTestIds" value="@test.Id" />
+                                    <label class="form-check-label" asp-for="LaboratoryTestIds">@test.Name</label>
+                                </div>
+                            }
+                        </div>
+                        <span asp-validation-for="LaboratoryTestIds" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Realizar pruebas</button>
+                    <a asp-controller="Appointment" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

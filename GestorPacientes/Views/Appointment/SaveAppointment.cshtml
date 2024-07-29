@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using PatientManager.Core.Application.Helpers;
+@using PatientManager.Core.Application.ViewModels.User;
+@using PatientManager.Core.Application.ViewModels.Appointment;
+
+@inject IHttpContextAccessor httpContext;
+
+@{
+    UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+    bool editMode = Model.Id != 0 ? true : false;
+    ViewData["Title"] = "Crear citas";
+}
+@model SaveAppointmentViewModel;
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                <h4>@(editMode ? $"Editando cita " : "Creando una nueva cita")</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="Appointment" asp-action="@(editMode? "Edit" : "Create")" enctype="multipart/form-data">
+
+                    <input type="hidden" asp-for="ConsultingRoomId" value="@user.ConsultingRoomId" />
+
+                    <div class="mb-3">
+                        <label asp-for="PatientId" class="form-label">Paciente: </label>
+                        <select asp-for="PatientId" asp-items="@(new SelectList(Model.Patients,"Id","Name"))" class="form-select">
+                            <option value="0">Seleccione un paciente</option>
+                        </select>
+                        <span asp-validation-for="PatientId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DoctorId" class="form-label">Doctor: </label>
+                        <select asp-for="DoctorId" asp-items="@(new SelectList(Model.Doctors,"Id","Name"))" class="form-select">
+                            <option value="0">Seleccione un doctor</option>
+                        </select>
+                        <span asp-validation-for="DoctorId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DateAppointment" class="form-label">Fecha cita: </label>
+                        <input asp-for="DateAppointment" class="form-control">
+                        <span asp-validation-for="DateAppointment" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="TimeAppointment" class="form-label">PhoneNumber: </label>
+                        <input asp-for="TimeAppointment" class="form-control">
+                        <span asp-validation-for="TimeAppointment" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Causa: </label>
+                        <input asp-for="Description" class="form-control">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <input type="hidden" asp-for="Status" value="PendienteConsulta" />
+
+                    <span asp-validation-for="Status" class="text-danger"></span>
+
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-controller="Appointment" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

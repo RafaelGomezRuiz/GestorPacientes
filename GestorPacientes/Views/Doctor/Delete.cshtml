@@ -1,0 +1,24 @@
+﻿@model PatientManager.Core.Application.ViewModels.Doctor.SaveDoctorViewModel
+@{
+    ViewData["Title"] = "Eliminar Doctor";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-danger text-light">
+                <h4>Esta seguro que desea eliminar al doctor @Model.Name?</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="Doctor" asp-action="DeletePost">
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <button type="submit" class="btn btn-primary">Eliminar</button>
+                    <a asp-controller="Doctor" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

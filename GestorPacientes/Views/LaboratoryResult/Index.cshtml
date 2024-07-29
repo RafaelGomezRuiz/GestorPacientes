@@ -1,0 +1,83 @@
+﻿@using PatientManager.Core.Application.ViewModels.LaboratoryResult;
+@model List<LaboratoryResultViewModel>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row">
+    <div class="col-10 offset-1">
+        <div class="card border">
+            <div class="card-header bg-primary">
+                <h3 class="text-white"><strong>Lista de resultados de laboratorio</strong></h3>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.Count() > 0)
+                    {
+                        <table class="table" id="tblLaboratoryResult" width="100%" cellpadding="1">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del paciente</th>
+                                    <th>Cedula del paciente</th>
+                                    <th>Nombre de la prueba</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                @foreach (var element in Model)
+                                {
+                                    <tr>
+                                        <td><strong>@Html.DisplayFor(a => element.PatientName)</strong></td>
+                                        <td><strong>@Html.DisplayFor(a => element.IdCard)</strong></td>
+                                        <td><strong>@Html.DisplayFor(a => element.TestName)</strong></td>
+                                        <td>
+                                            <a class="btn  btn-outline-warning text-black" asp-action="ReportResult" asp-route-id="@element.Id"><i class="bi-book"></i> Reportar resultado</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No hay registros</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblLaboratoryResult').DataTable({
+                // pageLength:5,
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                    "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+            console.log("Vista cargada y DataTable inicializado.");
+        });
+    </script>
+}
+

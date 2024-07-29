@@ -1,0 +1,86 @@
+﻿@using PatientManager.Core.Application.ViewModels.LaboratoryTest;
+@model List<LaboratoryTestViewModel>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row">
+    <div class="offset-7 col-3 mb-3 ">
+        <a asp-action="Create" asp-controller="LaboratoryTest" class="btn btn-outline-success  text-black d-block mx-auto p-2 btn-lg text-nowrap"><i class="bi-plus"></i>Add LaboratoryTest</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <div class="card border">
+            <div class="card-header bg-primary">
+                <h3 class="text-white"><strong>Lista de test de laboratio</strong></h3>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.Count() > 0)
+                    {
+                        <table class="table" id="tblLaboratoryTest" width="100%" cellpadding="1">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var element in Model)
+                                {
+                                    <tr>
+                                        <td><strong>@Html.DisplayFor(a => element.Name)</strong></td>
+                                        <td>
+                                            <a class="btn  btn-outline-warning text-black" asp-action="Edit" asp-route-id="@element.Id"><i class="bi-pencil-fill"></i> Edit</a>
+                                            <a class="btn btn-outline-danger text-black" asp-action="Delete" asp-route-id=" @element.Id"><i class="bi-eraser-fill"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No hay registros</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblLaboratoryTest').DataTable({
+                // pageLength:5,
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                    "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+            console.log("Vista cargada y DataTable inicializado.");
+        });
+    </script>
+}
+

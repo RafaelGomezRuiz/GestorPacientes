@@ -1,0 +1,31 @@
+﻿@using PatientManager.Core.Application.ViewModels.LaboratoryResult;
+
+@model SaveReportLaboratoryResultViewModel;
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>Reportar resultados:</h4>
+                </div>
+                <div class="card-body">
+                        <form method="post" asp-controller="LaboratoryResult" asp-action="ReportResult">
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label class="form-label" asp-for="Descripcion">Description</label>
+                                    <input class="form-control" asp-for="Descripcion" />
+                                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Realizar pruebas</button>
+                            <a asp-controller="LaboratoryResult" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

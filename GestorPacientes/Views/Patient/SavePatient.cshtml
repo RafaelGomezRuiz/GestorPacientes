@@ -1,0 +1,98 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using PatientManager.Core.Application.Helpers;
+@using PatientManager.Core.Application.ViewModels.User;
+@using PatientManager.Core.Application.ViewModels.Patient;
+
+@inject IHttpContextAccessor httpContext;
+
+@{
+    UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+    bool editMode = Model.Id != 0 ? true : false;
+    ViewData["Title"] = "Crear paciente";
+}
+@model SavePatientViewModel;
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                <h4>@(editMode ? $"Editando paciente: {Model.Name}" : "Creando un nuevo paciente")</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="Patient" asp-action="@(editMode? "Edit" : "Create")" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Nombre: </label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="LastName" class="form-label">LastName: </label>
+                        <input asp-for="LastName" class="form-control">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label">Address: </label>
+                        <input asp-for="Address" class="form-control">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">PhoneNumber: </label>
+                        <input asp-for="PhoneNumber" class="form-control">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="IdCard" class="form-label">IdCard: </label>
+                        <input asp-for="IdCard" class="form-control">
+                        <span asp-validation-for="IdCard" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="BornDay" class="form-label">BornDay: </label>
+                        <input asp-for="BornDay" class="form-control">
+                        <span asp-validation-for="BornDay" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Smocker" class="form-label">¿Es fumador?</label>
+                        <div>
+                            <label class="form-check-label">
+                                <input asp-for="Smocker" class="form-check-input" type="radio" value="true">Sí
+                            </label>
+                            <label class="form-check-label">
+                                <input asp-for="Smocker" class="form-check-input" type="radio" value="false">No
+                            </label>
+                        </div>
+                        <span asp-validation-for="Smocker" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Allergic" class="form-label">¿Es alegico?</label>
+                        <div>
+                            <label class="form-check-label">
+                                <input asp-for="Allergic" class="form-check-input" type="radio" value="true">Sí
+                            </label>
+                            <label class="form-check-label">
+                                <input asp-for="Allergic" class="form-check-input" type="radio" value="false">No
+                            </label>
+                        </div>
+                        <span asp-validation-for="Allergic" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="File" class="form-label">Photo: </label>
+                        @if (editMode == true)
+                        {
+                            <input asp-for="File" class="form-control">
+                        }
+                        else
+                        {
+                             <input required asp-for="File" class="form-control">
+                        }
+                    </div>
+
+                    <input type="hidden" asp-for="ConsultingRoomId" value="@user.ConsultingRoomId" />
+                
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-controller="Patient" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

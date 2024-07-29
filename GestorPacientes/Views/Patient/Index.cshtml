@@ -1,0 +1,58 @@
+﻿@using PatientManager.Core.Application.ViewModels.Patient;
+
+
+@model List<PatientViewModel>
+@{
+    ViewData["Title"] = "Patient Home";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3 d-flex justify-content-end">
+        <div class="col-2 ms-4">
+            <a asp-controller="Patient" asp-action="Create" class="btn btn-lg btn-outline-success"> Crear Patient</a>
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12">
+        @if (Model == null || Model.Count == 0)
+        {
+                <h3>No hay Patients</h3>
+        }
+        else
+        {
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary">
+                        <h3 class="text-white"> Lista de Patients</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach (PatientViewModel patient in Model)
+                    {
+                        <div class="col-3 mb-3">
+                            <div class="card shadow-sm">
+                                        <img src="@(patient.Photo ==null ? "https://cdn-icons-png.flaticon.com/512/149/149071.png" : @patient.Photo)" class="img-product-size  bd-placeholder-img card-img-top " />
+                                <div class="card-body">
+                                    <h3>Name: @patient.Name @patient.LastName</h3>
+                                    <p class="card-text">Address: @patient.Address</p>
+                                    <p class="card-text">Is Allergic: @(patient.Smocker == false ? "No" : "Si")</p>
+                                    <p class="card-text">Smocke: @(patient.Allergic == false ? "No" :"Si" )</p>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a asp-controller="Patient" asp-action="Edit" asp-route-id="@patient.Id" class="btn btn-sm btn-outline-info">Editar</a>
+                                            <a asp-controller="Patient" asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-sm btn-outline-danger">Borrar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+    </div>
+</div>

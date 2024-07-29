@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using PatientManager.Core.Application.Helpers;
+@using PatientManager.Core.Application.ViewModels.User;
+@using PatientManager.Core.Application.ViewModels.Doctor;
+
+@inject IHttpContextAccessor httpContext;
+
+@{
+    UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+    bool editMode = Model.Id != 0 ? true : false;
+    ViewData["Title"] = "Crear usuario";
+}
+@model SaveDoctorViewModel;
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                <h4>@(editMode ? $"Editando doctor: {Model.Name}" : "Creando un nuevo doctor")</h4>
+            </div>
+            <div class="card-body">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                <form method="post" asp-controller="Doctor" asp-action="@(editMode? "Edit" : "Create")" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Nombre: </label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="LastName" class="form-label">LastName: </label>
+                        <input asp-for="LastName" class="form-control">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email: </label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">PhoneNumber: </label>
+                        <input asp-for="PhoneNumber" class="form-control">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="IdCard" class="form-label">IdCard: </label>
+                        <input asp-for="IdCard" class="form-control">
+                        <span asp-validation-for="IdCard" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="File" class="form-label">Photo: </label>
+                        @if (editMode == true)
+                        {
+                            <input asp-for="File" class="form-control">
+                        }
+                        else
+                        {
+                             <input required asp-for="File" class="form-control">
+                        }
+                    </div>
+
+                    <input type="hidden" asp-for="ConsultingRoomId" value="@user.ConsultingRoomId" />
+                
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-controller="Doctor" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
